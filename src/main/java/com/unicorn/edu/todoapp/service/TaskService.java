@@ -16,6 +16,8 @@ public interface TaskService {
 
     Task completeTaskById(Long id);
 
+    Task uncompleteTaskById(Long id);
+
     Task editTaskById(Long id, String name);
 
     List<Task> getCompletedTasks();
@@ -23,4 +25,6 @@ public interface TaskService {
     List<Task> getUncompletedTasks();
 
     void deleteById(Long id);
+
+
 }

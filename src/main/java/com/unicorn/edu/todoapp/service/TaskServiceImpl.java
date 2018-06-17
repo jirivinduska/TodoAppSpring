@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -48,12 +49,24 @@ public class TaskServiceImpl implements TaskService {
     public Task completeTaskById(Long id) {
         if (taskRepository.findById(id).isPresent()) {
             Task task = taskRepository.findById(id).get();
-            task.setStatus(false);
+            task.setStatus(true);
             taskRepository.save(task);
             return taskRepository.findById(id).get();
         }
         else
            return notSuchTask(id);
+    }
+
+    @Override
+    public Task uncompleteTaskById(Long id) {
+        if (taskRepository.findById(id).isPresent()) {
+            Task task = taskRepository.findById(id).get();
+            task.setStatus(false);
+            taskRepository.save(task);
+            return taskRepository.findById(id).get();
+        }
+        else
+            return notSuchTask(id);
     }
 
     @Override
@@ -76,8 +89,6 @@ public class TaskServiceImpl implements TaskService {
             taskRepository.deleteById(id);
         }
     }
-
-
 
     private Task notSuchTask(Long id){
         Task task = new Task();
