@@ -21,17 +21,67 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List getAllTasks() {
+    public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
 
     @Override
     public Task getTaskById(Long id) {
-        return taskRepository.findById(id).get();
+        if (taskRepository.findById(id).isPresent()) {
+            return taskRepository.findById(id).get();
+        } else {
+            return notSuchTask(id);
+        }
     }
 
     @Override
+    public List<Task> getCompletedTasks() {
+        return taskRepository.findAllByStatus(false);
+    }
+
+    @Override
+    public List<Task> getUncompletedTasks() {
+        return taskRepository.findAllByStatus(true);
+    }
+
+    @Override
+    public Task completeTaskById(Long id) {
+        if (taskRepository.findById(id).isPresent()) {
+            Task task = taskRepository.findById(id).get();
+            task.setStatus(false);
+            taskRepository.save(task);
+            return taskRepository.findById(id).get();
+        }
+        else
+           return notSuchTask(id);
+    }
+
+    @Override
+    public Task editTaskById(Long id,String name) {
+        if (taskRepository.findById(id).isPresent()) {
+            Task task = taskRepository.findById(id).get();
+            task.setName(name);
+            taskRepository.save(task);
+            return taskRepository.findById(id).get();
+        }
+        else
+            return notSuchTask(id);
+    }
+
+
+
+    @Override
     public void deleteById(Long id) {
-        taskRepository.deleteById(id);
+        if (taskRepository.existsById(id)) {
+            taskRepository.deleteById(id);
+        }
+    }
+
+
+
+    private Task notSuchTask(Long id){
+        Task task = new Task();
+        task.setName("Task s id " + id.toString() + " neexistuje!");
+        return task;
     }
 }

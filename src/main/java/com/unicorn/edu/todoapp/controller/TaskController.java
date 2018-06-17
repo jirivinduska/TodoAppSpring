@@ -18,7 +18,7 @@ public class TaskController {
 
     @PostMapping
     public void addTask (@RequestBody Task task, Model model) {
-        System.out.println("saving user: "+task);
+        System.out.println("saving task: "+task);
         taskService.addTask(task);
     }
 
@@ -27,9 +27,29 @@ public class TaskController {
         return taskService.getAllTasks();
     }
 
+    @GetMapping("/filter/completed")
+    public List<Task> getCompletedTasks () {
+        return taskService.getCompletedTasks();
+    }
+
+    @GetMapping("/filter/uncompleted")
+    public List<Task> getUncompletedTasks () {
+        return taskService.getUncompletedTasks();
+    }
+
     @GetMapping("/{id}")
     public Task getTaskById (@PathVariable Long id) {
         return taskService.getTaskById(id);
+    }
+
+    @GetMapping("/complete/{id}")
+    public Task completeTaskById (@PathVariable Long id) {
+        return taskService.completeTaskById(id);
+    }
+
+    @GetMapping("/{id}/{name}")
+    public Task editTaskById (@PathVariable Long id,@PathVariable String name) {
+       return taskService.editTaskById(id,name);
     }
 
     @DeleteMapping("/{id}")

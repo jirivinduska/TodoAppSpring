@@ -16,7 +16,7 @@ public class Task {
 
     @Type(type = "true_false")
     @NotNull
-    private Boolean Status;
+    private Boolean status;
 
     public Long getId() {
         return id;
@@ -35,10 +35,19 @@ public class Task {
     }
 
     public Boolean getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(Boolean status) {
-        Status = status;
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

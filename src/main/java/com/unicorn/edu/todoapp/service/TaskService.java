@@ -10,9 +10,17 @@ public interface TaskService {
 
     Task addTask(Task task);
 
-    List getAllTasks();
+    List<Task> getAllTasks();
 
     Task getTaskById(Long id);
+
+    Task completeTaskById(Long id);
+
+    Task editTaskById(Long id, String name);
+
+    List<Task> getCompletedTasks();
+
+    List<Task> getUncompletedTasks();
 
     void deleteById(Long id);
 }
